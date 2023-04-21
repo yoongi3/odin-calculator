@@ -1,3 +1,6 @@
+const input = document.getElementById('input');
+const buttons = document.querySelectorAll('button');
+
 let firstNum;
 let secondNum;
 let operator = "";
@@ -30,4 +33,23 @@ function operate(c, a, b){
     }
 }
 
-console.log(operate("/",1203,131))
+function display(){
+
+}
+buttons.forEach((button) => {
+    button.addEventListener('click', ()=>{
+        handleButtons(button);
+    })
+});
+
+function handleButtons(button){
+    if(button.classList.contains('number')){
+        input.textContent += button.textContent;
+    }
+    if(button.classList.contains('operator')){
+        console.log("operator")
+    }
+
+}
+
+    
