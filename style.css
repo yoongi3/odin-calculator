@@ -1,9 +1,9 @@
 .button-container{
     display: grid;
     grid-template: 
-        '. . . divide'
+        'clear delete negative divide'
         'one two three multiply'
         'four five six minus'
         'seven eight nine plus'
-        'zero zero . equal';
+        'zero zero decimal equal';
 }
