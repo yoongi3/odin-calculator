@@ -1,56 +1,77 @@
 const input = document.getElementById('input');
 const buttons = document.querySelectorAll('button');
 
-let prevNum = 0;
-let currNum = 0;
-let ans = '0';
-let operator = "";
+let prevNum;
+let currNum;
+let ans;
+let prevBtn;
+let operator;
 
 function operate(c, a, b){
     if (c === "+"){
         ans = (+a)+(+b);
     }if (c === "-"){
-        ans = a-b;
+        ans = (+a)-(+b);
     }if (c === "*"){
-        ans = a*b;
+        ans = (+a)*(+b);
     }if (c === "/"){
-        ans = a/b;
+        ans = (+a)/(+b);
     }
+    console.log(ans)
     input.textContent = ans;
-    prevNum = ans;
+    prevNum = '';
+    currNum = '';
+    operator = '';
 }
 
 buttons.forEach((button) => {
     button.addEventListener('click', ()=>{
         handleButtons(button);
+        console.log(button.classList+" "+ prevNum+" "+operator+" "+currNum+" "+ans)
     })
 });
 
 function handleButtons(button){
     if(button.classList.contains('number')){
-        if(input.textContent[0].includes("0", 0) || input.textContent.startsWith(ans)){
-            input.textContent = '';
-            ans = '0';
+        if(input.textContent){
+            if(input.textContent[0].includes("0", 0) || !prevBtn == ''){
+                input.textContent = '';
+            }
         }
         input.textContent += button.textContent;
         currNum = input.textContent;
-        console.log("prev "+prevNum + operator + "curr "+currNum)
     }
     if(button.classList.contains('operator')){
-        if(prevNum){
-            operate(operator,prevNum,currNum)
+        if(prevBtn == "operator"){
+            operate(operator, prevNum, currNum);
             operator = button.textContent;
+            prevNum = ans;
+            prevBtn = "operator";
+            
             return;
         }
-        operator = button.textContent;
+        if(prevBtn == "equal"){
+            operator = button.textContent;
+            prevNum = input.textContent;
+            input.textContent = "0";
+            prevBtn = "operator";
+            return;
+        }
+        else
         prevNum = currNum;
-        input.textContent = '0'
+        currNum = ''
+        operator = button.textContent;
+        input.textContent = "0";
+        prevBtn = "operator";
     }
     if(button.classList.contains('equal')){
+        prevBtn = "equal";
         operate(operator, prevNum, currNum);
     }
     if(button.classList.contains('clear')){
+        prevBtn = "clear";
         input.textContent = "0";
+        ans = '';
         currNum = '';
         prevNum = '';
         operator = '';
