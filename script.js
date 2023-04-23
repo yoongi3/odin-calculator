@@ -1,41 +1,25 @@
 const input = document.getElementById('input');
 const buttons = document.querySelectorAll('button');
 
-let firstNum;
-let secondNum;
+let prevNum = 0;
+let currNum = 0;
+let ans = '0';
 let operator = "";
-
-function add(a, b){
-    return a + b;
-}
-
-function subtract(a, b){
-    return a - b;
-}
-
-function multiply(a, b){
-    return a * b;
-}
-
-function divide(a, b){
-    return a / b;
-}
 
 function operate(c, a, b){
     if (c === "+"){
-        return add(a,b);
+        ans = (+a)+(+b);
     }if (c === "-"){
-        return subtract(a,b);
+        ans = a-b;
     }if (c === "*"){
-        return multiply(a,b);
+        ans = a*b;
     }if (c === "/"){
-        return divide(a,b);
+        ans = a/b;
     }
+    input.textContent = ans;
+    prevNum = ans;
 }
 
-function display(){
-
-}
 buttons.forEach((button) => {
     button.addEventListener('click', ()=>{
         handleButtons(button);
@@ -44,11 +28,36 @@ buttons.forEach((button) => {
 
 function handleButtons(button){
     if(button.classList.contains('number')){
+        if(input.textContent[0].includes("0", 0) || input.textContent.startsWith(ans)){
+            input.textContent = '';
+            ans = '0';
+        }
         input.textContent += button.textContent;
+        currNum = input.textContent;
+        console.log("prev "+prevNum + operator + "curr "+currNum)
     }
     if(button.classList.contains('operator')){
-        console.log("operator")
+        if(prevNum){
+            operate(operator,prevNum,currNum)
+            operator = button.textContent;
+            return;
+        }
+        operator = button.textContent;
+        prevNum = currNum;
+        input.textContent = '0'
     }
+    if(button.classList.contains('equal')){
+        operate(operator, prevNum, currNum);
+    }
+    if(button.classList.contains('clear')){
+        input.textContent = "0";
+        currNum = '';
+        prevNum = '';
+        operator = '';
+    }
+    // backspace
+    // decimal
+    // equal
 
 }
 
