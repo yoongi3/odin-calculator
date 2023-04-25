@@ -6,6 +6,7 @@ let currNum;
 let ans;
 let prevBtn;
 let operator;
+let shouldClear;
 
 function operate(c, a, b){
     if (c === "+"){
@@ -34,8 +35,9 @@ buttons.forEach((button) => {
 function handleButtons(button){
     if(button.classList.contains('number')){
         if(input.textContent){
-            if(input.textContent[0].includes("0", 0) || !prevBtn == ''){
+            if(input.textContent[0].includes("0", 0) || shouldClear){
                 input.textContent = '';
+                shouldClear = false;
             }
         }
         input.textContent += button.textContent;
@@ -47,7 +49,7 @@ function handleButtons(button){
             operator = button.textContent;
             prevNum = ans;
             prevBtn = "operator";
-            
+            shouldClear = true;
             return;
         }
         if(prevBtn == "equal"){
@@ -55,6 +57,7 @@ function handleButtons(button){
             prevNum = input.textContent;
             input.textContent = "0";
             prevBtn = "operator";
+            shouldClear = true;
             return;
         }
         else
