@@ -11,6 +11,7 @@ buttons.forEach((button) => {
     button.addEventListener('click', ()=>{
         handleButtons(button);
         console.log(button.classList+" "+ firstOperand+" "+currOperator+" "+secondOperand+" "+ans)
+        console.log(button)
     })
 });
 
@@ -91,6 +92,14 @@ function clear(){
     currOperator = '';
 }
 function backspace(){
+    if(input.textContent.length == 1){
+        input.textContent = "0"
+        return
+    }
+    if(shouldClear){
+        input.textContent = "0"
+        return;
+    }
     input.textContent = input.textContent.toString().slice(0,-1);
     secondOperand = input.textContent;
 }
