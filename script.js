@@ -5,13 +5,14 @@ let firstOperand = '';
 let secondOperand = '';
 let currOperator = '';
 let ans = '';
-let shouldClear;
+let shouldClear = true;
+
+console.log("firstOperand: "+ firstOperand+" currOperator: "+currOperator+" secondOperand: "+secondOperand+" "+ans) // ****
 
 buttons.forEach((button) => {
     button.addEventListener('click', ()=>{
         handleButtons(button);
-        console.log(button.classList+" "+ firstOperand+" "+currOperator+" "+secondOperand+" "+ans)
-        console.log(button)
+        console.log("firstOperand: "+ firstOperand+" currOperator: "+currOperator+" secondOperand: "+secondOperand+" "+ans)
     })
 });
 
@@ -31,14 +32,14 @@ function handleButtons(button){
     if(button.classList.contains('delete')){
         backspace();
     }
-    // decimal
-    // equal
-
+    if(button.classList.contains('decimal')){
+        handleDecimal(button.textContent);
+    }
 }
 
 function handleNumber(number){
     if(input.textContent){
-        if(input.textContent[0].includes("0", 0) || shouldClear){
+        if(shouldClear){
             input.textContent = '';
             shouldClear = false;
         }
@@ -47,6 +48,19 @@ function handleNumber(number){
         }
     }
     input.textContent += number;
+    shouldClear = false;
+    secondOperand = input.textContent;
+}
+
+function handleDecimal(decimal){
+    if(input.textContent.includes(".") && !shouldClear){
+        return
+    }
+    if(shouldClear){
+        input.textContent = '0';
+        shouldClear = false;
+    }
+    input.textContent += decimal;
     secondOperand = input.textContent;
 }
 
@@ -62,21 +76,27 @@ function handleOperator(operator){
         }
     }
     currOperator = operator;
+    shouldClear = true;
     return;
 }
 
 function operate(c, a, b){
-    (console.log(c))
-    if (c === "+"){
+    if(a== '' || b== '')
+        ans = input.textContent;
+    if (c === "+")
         ans = (+a)+(+b);
-    }if (c === "-"){
+    if (c === "-")
         ans = (+a)-(+b);
-    }if (c === "*"){
+    if (c === "*")
         ans = (+a)*(+b);
-    }if (c === "/"){
+    if (c === "/"){
+        if (b == 0){
+            b = 1;
+            alert("can not divide by 0");
+        }
         ans = (+a)/(+b);
     }
-    input.textContent = ans;
+    input.textContent = Number(Math.round((+ans)+'e3')+'e-3');
     firstOperand = ans;
     ans = '';
     secondOperand = '';
@@ -102,4 +122,6 @@ function backspace(){
     }
     input.textContent = input.textContent.toString().slice(0,-1);
     secondOperand = input.textContent;
+    if(input.textContent == "0")
+        shouldClear = true;
 }
