@@ -1,5 +1,6 @@
 const input = document.getElementById('input');
 const buttons = document.querySelectorAll('button');
+const log = document.getElementById('log');
 
 let firstOperand = '';
 let secondOperand = '';
@@ -12,7 +13,7 @@ console.log("firstOperand: "+ firstOperand+" currOperator: "+currOperator+" seco
 buttons.forEach((button) => {
     button.addEventListener('click', ()=>{
         handleButtons(button);
-        console.log("firstOperand: "+ firstOperand+" currOperator: "+currOperator+" secondOperand: "+secondOperand+" "+ans)
+        log.textContent = (firstOperand+ " "+currOperator+" "+secondOperand+" "+ans)
     })
 });
 
